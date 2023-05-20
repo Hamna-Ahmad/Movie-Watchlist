@@ -50,7 +50,7 @@ form.addEventListener('submit', function(e){
                             } else (
                                 plot =`<p>${data.Plot}</p>`
                             )
-        
+                            // render the movies on the DOM
                             moviesContainer.innerHTML += 
                             `
                             <div class="movie-container">
