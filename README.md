@@ -41,9 +41,6 @@ The app relies on the following dependencies:
 
 - Font Awesome: A library of icons used for the "Watchlist" and "Remove" buttons.
 Dependencies
-The app relies on the following dependencies:
-
-Font Awesome: A library of icons used for the "Watchlist" and "Remove" buttons.
 
 ## License
 This app is open-source and released under the MIT License. Feel free to modify and use it according to your needs.
