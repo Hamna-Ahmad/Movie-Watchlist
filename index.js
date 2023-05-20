@@ -20,7 +20,7 @@ form.addEventListener('submit', function(e){
     moviesContainer.classList.add('formating')
     const searchValue = searchInput.value
     
-    fetch(`http://www.omdbapi.com/?s=${searchValue}&apikey=30266978&page=3&type=movie`)
+    fetch(`https://www.omdbapi.com/?s=${searchValue}&apikey=30266978&page=3&type=movie`)
         .then(res => res.json())
         .then(data => {
             const results = data.Search
@@ -29,7 +29,7 @@ form.addEventListener('submit', function(e){
             })
             
         for(let id of movieId){
-            fetch(`http://www.omdbapi.com/?i=${id}&apikey=30266978`)
+            fetch(`https://www.omdbapi.com/?i=${id}&apikey=30266978`)
                 .then(res => res.json())
                 .then(data => { 
                     console.log(data)
