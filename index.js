@@ -16,55 +16,68 @@ if(moviesFromLocalStorage){
 form.addEventListener('submit', function(e){
     moviesContainer.innerHTML = ''
     e.preventDefault()
-    reelIcon.style.display ='none'
     moviesContainer.classList.add('formating')
     const searchValue = searchInput.value
     
-    fetch(`https://www.omdbapi.com/?s=${searchValue}&apikey=30266978&page=3&type=movie`)
+    // Fetch from API using searched value
+    fetch(`http://www.omdbapi.com/?s=${searchValue}&apikey=30266978&page=3&type=movie`)
         .then(res => res.json())
         .then(data => {
-            const results = data.Search
-            const movieId = results.map(function(movie){
-                return movie.imdbID
-            })
-            
-        for(let id of movieId){
-            fetch(`https://www.omdbapi.com/?i=${id}&apikey=30266978`)
-                .then(res => res.json())
-                .then(data => { 
-                    console.log(data)
-                    movieArray.push(data)
-                    let plot = ''
-                    if(data.Plot.length > 110) {
-                        plot = `<p>${data.Plot.substring(0,110) + "..."}<a>Read more</a></p>`
-                    } else (
-                        plot =`<p>${data.Plot}</p>`
-                    )
-                    moviesContainer.innerHTML += 
+            if (data.Error){
+                moviesContainer.innerHTML += 
                     `
-                    <div class="movie-container">
-                    <div class="movie">
-                        <img class="poster-img" src="${data.Poster}" alt="${data.Title} Movie Poster">
-                        <div class="info">
-                            <div class="heading-rating">
-                                <h3>${data.Title}</h3>
-                                <i class="fa-solid fa-star" style="color: #fec654;"></i>
-                                <p>${data.imdbRating}</p>
-                            </div>
-                            <div class="time-genre-watchlist">
-                                <p>${data.Runtime}</p>
-                                <p>${data.Genre}</p>
-                                <button class="watchlist-btn" id="${data.imdbID}"><i class="fa-solid fa-circle-plus plus" ></i> Watchlist</button>
-                            </div>
-                            ${plot}
-                        </div>
-                    </div>
-                    <hr>
-                    </div>
+                        <p id="error" class="center">Unable to find what you're looking for. Please try another search.</p>
                     `
+                setTimeout(() => {
+                    document.getElementById('error').style.display = 'none'
+                },5000)
+                reelIcon.style.display= 'flex'
+
+            }else {
+                const results = data.Search
+                const movieId = results.map(function(movie){
+                    return movie.imdbID
                 })
-            
-        }
+                // Run another fetch request on the specific movie IDs
+                for(let id of movieId){
+                    fetch(`http://www.omdbapi.com/?i=${id}&apikey=30266978`)
+                        .then(res => res.json())
+                        .then(data => { 
+                            movieArray.push(data)
+                            let plot = ''
+                            if(data.Plot.length > 110) {
+                                plot = `<p>${data.Plot.substring(0,110) + "..."}<a>Read more</a></p>`
+                            } else (
+                                plot =`<p>${data.Plot}</p>`
+                            )
+        
+                            moviesContainer.innerHTML += 
+                            `
+                            <div class="movie-container">
+                            <div class="movie">
+                                <img class="poster-img" src="${data.Poster}" alt="${data.Title} Movie Poster">
+                                <div class="info">
+                                    <div class="heading-rating">
+                                        <h3>${data.Title}</h3>
+                                        <i class="fa-solid fa-star" style="color: #fec654;"></i>
+                                        <p>${data.imdbRating}</p>
+                                    </div>
+                                    <div class="time-genre-watchlist">
+                                        <p>${data.Runtime}</p>
+                                        <p>${data.Genre}</p>
+                                        <button class="watchlist-btn" id="${data.imdbID}"><i class="fa-solid fa-circle-plus plus" ></i> Watchlist</button>
+                                    </div>
+                                    ${plot}
+                                </div>
+                            </div>
+                            <hr>
+                            </div>
+                            `
+                        }
+                    )
+                    
+                }
+            }
     })
     searchInput.value =''
 })
