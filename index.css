@@ -189,7 +189,7 @@ button{
     font-weight: 500;
     transition:all 0.5s;
     font-size: 1.4rem;
-    cursor:pointer;
+    cursor: pointer;
 }
   
 .search-btn{
@@ -221,7 +221,7 @@ button{
 
 /* Links */
 a {
-    cursor:pointer;
+    cursor: pointer;
 }
 
 header a{
