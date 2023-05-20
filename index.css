@@ -219,6 +219,10 @@ button{
 
 
 /* Links */
+a {
+    cursor:pointer;
+}
+
 header a{
     color:#fff;
     text-decoration: none;
