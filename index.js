@@ -20,7 +20,7 @@ form.addEventListener('submit', function(e){
     const searchValue = searchInput.value
     
     // Fetch from API using searched value
-    fetch(`http://www.omdbapi.com/?s=${searchValue}&apikey=30266978&page=3&type=movie`)
+    fetch(`https://www.omdbapi.com/?s=${searchValue}&apikey=30266978&page=3&type=movie`)
         .then(res => res.json())
         .then(data => {
             if (data.Error){
@@ -40,7 +40,7 @@ form.addEventListener('submit', function(e){
                 })
                 // Run another fetch request on the specific movie IDs
                 for(let id of movieId){
-                    fetch(`http://www.omdbapi.com/?i=${id}&apikey=30266978`)
+                    fetch(`https://www.omdbapi.com/?i=${id}&apikey=30266978`)
                         .then(res => res.json())
                         .then(data => { 
                             movieArray.push(data)
