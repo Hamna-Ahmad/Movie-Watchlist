@@ -4,12 +4,10 @@ let watchlistArray = []
 
 function render(){
     if(moviesFromLocalStorage.length > 0){
-        console.log("theres movies")
         watchlistArray = moviesFromLocalStorage
         watchlistContainer.classList.add('formating')
         renderWatchlistHTML(watchlistArray)
     } else {
-        console.log("empty list")
         renderEmptyWatchlistHtml()
         watchlistContainer.classList.add('center')
     }

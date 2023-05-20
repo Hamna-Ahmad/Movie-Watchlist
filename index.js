@@ -5,6 +5,7 @@ const moviesContainer = document.getElementById('movies-container')
 const reelIcon = document.querySelector('.reel-icon')
 let movieArray = []
 let watchlistArray = []
+
 let moviesFromLocalStorage = JSON.parse(localStorage.getItem('watchlist'))
 
 
@@ -13,12 +14,13 @@ if(moviesFromLocalStorage){
 }
 
 form.addEventListener('submit', function(e){
+    moviesContainer.innerHTML = ''
     e.preventDefault()
     reelIcon.style.display ='none'
     moviesContainer.classList.add('formating')
     const searchValue = searchInput.value
     
-    fetch(`https://www.omdbapi.com/?s=${searchValue}&apikey=30266978&page=3&type=movie`)
+    fetch(`http://www.omdbapi.com/?s=${searchValue}&apikey=30266978&page=3&type=movie`)
         .then(res => res.json())
         .then(data => {
             const results = data.Search
@@ -27,15 +29,22 @@ form.addEventListener('submit', function(e){
             })
             
         for(let id of movieId){
-            fetch(`https://www.omdbapi.com/?i=${id}&apikey=30266978&page=3`)
+            fetch(`http://www.omdbapi.com/?i=${id}&apikey=30266978`)
                 .then(res => res.json())
-                .then(data => {
+                .then(data => { 
+                    console.log(data)
                     movieArray.push(data)
+                    let plot = ''
+                    if(data.Plot.length > 110) {
+                        plot = `<p>${data.Plot.substring(0,110) + "..."}<a>Read more</a></p>`
+                    } else (
+                        plot =`<p>${data.Plot}</p>`
+                    )
                     moviesContainer.innerHTML += 
                     `
                     <div class="movie-container">
                     <div class="movie">
-                        <img class="poster-img" src="${data.Poster}" width="99" height="147" alt="${data.Title} Movie Poster">
+                        <img class="poster-img" src="${data.Poster}" alt="${data.Title} Movie Poster">
                         <div class="info">
                             <div class="heading-rating">
                                 <h3>${data.Title}</h3>
@@ -47,7 +56,7 @@ form.addEventListener('submit', function(e){
                                 <p>${data.Genre}</p>
                                 <button class="watchlist-btn" id="${data.imdbID}"><i class="fa-solid fa-circle-plus plus" ></i> Watchlist</button>
                             </div>
-                            <p>${data.Plot}</p>
+                            ${plot}
                         </div>
                     </div>
                     <hr>
