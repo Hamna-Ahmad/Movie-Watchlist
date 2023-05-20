@@ -35,6 +35,7 @@ To use the app, follow these steps:
 7. To remove a movie from your watchlist, click the "Remove" button next to the movie.
 
 Please note that the app uses the OMDB API, so an internet connection is required for it to function properly.
+
 ## Dependencies
 The app relies on the following dependencies:
 
